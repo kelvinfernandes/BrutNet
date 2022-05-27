@@ -144,7 +144,12 @@ class _JobDialogState extends State<JobDialog> {
                       buildNet(),
                       SizedBox(height: 20),
                       buildAnnuelBrut(),
-                    ]),
+                      SizedBox(height: 20),
+                      buildStatut2(),
+                    ],
+
+
+                ),
 
               ),
                 Container(
@@ -184,14 +189,16 @@ class _JobDialogState extends State<JobDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "",
+                          "SÉLECTIONNEZ VOTRE TEMPS DE TRAVAIL : 100 %",
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        buildBrut(),
+                        buildTemps(),
                         SizedBox(height: 20),
-                        buildNet(),
+                        buildPrime(),
                         SizedBox(height: 20),
-                        buildAnnuelBrut(),
+                        buildPrelevement(),
+                       
+
                       ]),
 
                 ),
@@ -249,9 +256,9 @@ class _JobDialogState extends State<JobDialog> {
   Widget buildBrut() => TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            icon: Icon(Icons.euro, color: Colors.white),
+            icon: Icon(Icons.timer, color: Colors.white),
             labelText: 'Horaire Brut',
-            suffixText: "EUR",
+            suffixText: "",
             labelStyle: TextStyle(
               color: Colors.black,
             ),
@@ -266,14 +273,75 @@ class _JobDialogState extends State<JobDialog> {
         },
         controller: brutController,
       );
+  Widget buildTemps() => TextFormField(
+    decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        icon: Icon(Icons.timer, color: Colors.white),
+        labelText: 'Temps de travail',
+        suffixText: "",
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        fillColor: Colors.white,
+        filled: true),
+    keyboardType: TextInputType.number,
+    validator: (amount) => amount != null && double.tryParse(amount) == null
+        ? 'Saisir un nombre valide'
+        : null,
+    onChanged: (text) {
+      onBrutChange();
+    },
+    controller: brutController,
+  );
 
+  Widget buildPrime() => TextFormField(
+    decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        icon: Icon(Icons.calendar_today, color: Colors.white),
+        labelText: 'Nombre de mois de prime',
+        suffixText: "",
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        fillColor: Colors.white,
+        filled: true),
+    keyboardType: TextInputType.number,
+    validator: (amount) => amount != null && double.tryParse(amount) == null
+        ? 'Saisir un nombre valide'
+        : null,
+    onChanged: (text) {
+      onBrutChange();
+    },
+    controller: brutController,
+  );
+
+  Widget buildPrelevement() => TextFormField(
+    decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        icon: Icon(Icons.percent, color: Colors.white),
+        labelText: 'Taux de prélevement',
+        suffixText: "%",
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        fillColor: Colors.white,
+        filled: true),
+    keyboardType: TextInputType.number,
+    validator: (amount) => amount != null && double.tryParse(amount) == null
+        ? 'Saisir un nombre valide'
+        : null,
+    onChanged: (text) {
+      onBrutChange();
+    },
+    controller: brutController,
+  );
 
   Widget buildNet() => TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.euro, color: Colors.white),
             labelText: 'Mensuel Brut',
-            suffixText: "EUR",
+            suffixText: "€",
             labelStyle: TextStyle(
               color: Colors.black,
             ),
@@ -289,12 +357,36 @@ class _JobDialogState extends State<JobDialog> {
         controller: netController,
       );
 
+
+  Widget buildStatut2() => TextFormField(
+    decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        icon: Icon(Icons.work, color: Colors.white),
+        labelText: 'Statut',
+        suffixText: "",
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        fillColor: Colors.white,
+        filled: true),
+    keyboardType: TextInputType.number,
+    validator: (amount) => amount != null && double.tryParse(amount) == null
+        ? 'Saisir un nombre valide'
+        : null,
+    onChanged: (text) {
+      onNetChange();
+    },
+    controller: netController,
+  );
+
+
+
   Widget buildAnnuelBrut() => TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.euro, color: Colors.white),
             labelText: 'Annuel Net',
-            suffixText: "EUR",
+            suffixText: "€",
             labelStyle: TextStyle(
               color: Colors.black,
             ),
