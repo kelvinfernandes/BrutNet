@@ -33,9 +33,20 @@ class _JobDialogState extends State<JobDialog> {
     'Profession libérale 45%',
     'Portage salarial 51%'
   ];
+
+  final itemsPrime = [
+    '12 mois',
+    '13 mois',
+    '14 mois',
+    '15 mois',
+    '16 mois'
+  ];
   final pourcentages = [0.78, 0.75, 0.85, 0.55, 0.49];
 
   String? dropdownValue = 'Salarié non-cadre 22%';
+
+  String? dropdownPrimeValue = '12 mois';
+  int dropdownPrimeIndex = 0;
   int dropdownIndex = 0;
 
   double roundDouble(double value, int places) {
@@ -120,9 +131,10 @@ class _JobDialogState extends State<JobDialog> {
           //Animation de chutte
           child: BounceInDown(
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Container(
-            height: 800,
+            Row(
+                children: [
+                  Container(
+            height: 500,
             width: 500,
             //Maximum de l'espace disponible
             margin: EdgeInsets.all(20),
@@ -175,30 +187,44 @@ class _JobDialogState extends State<JobDialog> {
               ],
             ),
           ),
-          Container(
-            height: 800,
-            width: 500,
-            //Maximum de l'espace disponible
-            margin: EdgeInsets.all(20),
-            padding: EdgeInsets.all(20),
+                  Container(
+                    height: 500,
+                    width: 500,
+                    //Maximum de l'espace disponible
+                    margin: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20),
 
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                //Axe horizental
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "SÉLECTIONNEZ VOTRE TEMPS DE TRAVAIL : 100 %",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      //Axe horizental
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Indiquez votre salaire brut",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width:500,
+                            child: buildTemps()
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                            width:500,
+                            child: buildPrime()
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                            width:500,
+                            child: buildPrelevement()
+                        ),
+                        SizedBox(height: 20),
+
+
+                      ],
+                    ),
                   ),
-                  buildTemps(),
-                  SizedBox(height: 20),
-                  buildPrime(),
-                  SizedBox(height: 20),
-                  buildPrelevement(),
                 ]),
-          ),
-        ]),
       )),
     );
     return AlertDialog(
@@ -288,32 +314,33 @@ class _JobDialogState extends State<JobDialog> {
         controller: brutController,
       );
 
-  Widget buildPrime() => TextFormField(
-        decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            icon: Icon(Icons.calendar_today, color: Colors.white),
-            labelText: 'Nombre de mois de prime',
-            suffixText: "",
-            labelStyle: TextStyle(
-              color: Colors.black,
-            ),
-            fillColor: Colors.white,
-            filled: true),
-        keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
-            ? 'Saisir un nombre valide'
-            : null,
-        onChanged: (text) {
-          onBrutChange();
-        },
-        controller: brutController,
-      );
+  Widget buildPrime()  => DropdownButtonFormField<String>(
+    decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        icon: Icon(Icons.add, color: Colors.white),
+        labelText: 'Prime',
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        fillColor: Colors.white,
+        filled: true),
+    value: dropdownPrimeValue,
+    items: itemsPrime.map(builMenuItem).toList(),
+    onChanged: (value) => setState(() {
+      if (value != null) {
+        dropdownPrimeValue = value;
+        dropdownPrimeIndex = itemsPrime.indexOf(value);
+      }
+      onBrutChange();
+    }),
+    validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
+  );
 
   Widget buildPrelevement() => TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.percent, color: Colors.white),
-            labelText: 'Taux de prélevement',
+            labelText: 'Taux de prélevement à la source',
             suffixText: "%",
             labelStyle: TextStyle(
               color: Colors.black,
