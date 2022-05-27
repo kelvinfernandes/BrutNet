@@ -119,93 +119,86 @@ class _JobDialogState extends State<JobDialog> {
       body: SingleChildScrollView(
           //Animation de chutte
           child: BounceInDown(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children:
-              [
-              Container(
-                height: 800,
-                width: 250,
-                //Maximum de l'espace disponible
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(20),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
+            height: 800,
+            width: 500,
+            //Maximum de l'espace disponible
+            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
 
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    //Axe horizental
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Indiquez votre salaire brut",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      buildBrut(),
-                      SizedBox(height: 20),
-                      buildNet(),
-                      SizedBox(height: 20),
-                      buildAnnuelBrut(),
-                      SizedBox(height: 20),
-                      buildStatut2(),
-                    ],
-
-
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              //Axe horizental
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Indiquez votre salaire brut",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
+                SizedBox(height: 20),
 
-              ),
                 Container(
-                  height: 800,
-                  width: 250,
-                  //Maximum de l'espace disponible
-                  margin: EdgeInsets.all(20),
-                  padding: EdgeInsets.all(20),
+                    //Division des champs
 
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      //Axe horizental
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Résultat de votre salaire Net",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        buildBrut(),
-                        SizedBox(height: 20),
-                        buildNet(),
-                        SizedBox(height: 20),
-                        buildAnnuelBrut(),
-                      ]),
+                    child: Column(
+                  children: [
+                    Row(children:[
+                      Container(
+                          width: 230,
+                          child: Column(children: [
+                            buildBrut(),
+                            SizedBox(height: 20),
+                            buildNet(),
+                            SizedBox(height: 20),
+                            buildAnnuelBrut(),
+                          ])),
+                      Container(
+                          width: 230,
+                          child: Column(children: [
+                            buildBrut(),
+                            SizedBox(height: 20),
+                            buildNet(),
+                            SizedBox(height: 20),
+                            buildAnnuelBrut(),
+                          ])),
+                      ]
+                    )
 
-                ),
-                Container(
-                  height: 800,
-                  width: 500,
-                  //Maximum de l'espace disponible
-                  margin: EdgeInsets.all(20),
-                  padding: EdgeInsets.all(20),
+                  ],
+                )),
+                SizedBox(height: 20),
 
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      //Axe horizental
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "SÉLECTIONNEZ VOTRE TEMPS DE TRAVAIL : 100 %",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        buildTemps(),
-                        SizedBox(height: 20),
-                        buildPrime(),
-                        SizedBox(height: 20),
-                        buildPrelevement(),
-                       
+                //Champ large
+                Expanded(child: buildStatut()),
+              ],
+            ),
+          ),
+          Container(
+            height: 800,
+            width: 500,
+            //Maximum de l'espace disponible
+            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
 
-                      ]),
-
-                ),
-
-            ]),
-
-
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                //Axe horizental
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "SÉLECTIONNEZ VOTRE TEMPS DE TRAVAIL : 100 %",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  buildTemps(),
+                  SizedBox(height: 20),
+                  buildPrime(),
+                  SizedBox(height: 20),
+                  buildPrelevement(),
+                ]),
+          ),
+        ]),
       )),
     );
     return AlertDialog(
@@ -273,68 +266,69 @@ class _JobDialogState extends State<JobDialog> {
         },
         controller: brutController,
       );
+
   Widget buildTemps() => TextFormField(
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        icon: Icon(Icons.timer, color: Colors.white),
-        labelText: 'Temps de travail',
-        suffixText: "",
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-        fillColor: Colors.white,
-        filled: true),
-    keyboardType: TextInputType.number,
-    validator: (amount) => amount != null && double.tryParse(amount) == null
-        ? 'Saisir un nombre valide'
-        : null,
-    onChanged: (text) {
-      onBrutChange();
-    },
-    controller: brutController,
-  );
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.timer, color: Colors.white),
+            labelText: 'Temps de travail',
+            suffixText: "",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) => amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onBrutChange();
+        },
+        controller: brutController,
+      );
 
   Widget buildPrime() => TextFormField(
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        icon: Icon(Icons.calendar_today, color: Colors.white),
-        labelText: 'Nombre de mois de prime',
-        suffixText: "",
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-        fillColor: Colors.white,
-        filled: true),
-    keyboardType: TextInputType.number,
-    validator: (amount) => amount != null && double.tryParse(amount) == null
-        ? 'Saisir un nombre valide'
-        : null,
-    onChanged: (text) {
-      onBrutChange();
-    },
-    controller: brutController,
-  );
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.calendar_today, color: Colors.white),
+            labelText: 'Nombre de mois de prime',
+            suffixText: "",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) => amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onBrutChange();
+        },
+        controller: brutController,
+      );
 
   Widget buildPrelevement() => TextFormField(
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        icon: Icon(Icons.percent, color: Colors.white),
-        labelText: 'Taux de prélevement',
-        suffixText: "%",
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-        fillColor: Colors.white,
-        filled: true),
-    keyboardType: TextInputType.number,
-    validator: (amount) => amount != null && double.tryParse(amount) == null
-        ? 'Saisir un nombre valide'
-        : null,
-    onChanged: (text) {
-      onBrutChange();
-    },
-    controller: brutController,
-  );
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.percent, color: Colors.white),
+            labelText: 'Taux de prélevement',
+            suffixText: "%",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) => amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onBrutChange();
+        },
+        controller: brutController,
+      );
 
   Widget buildNet() => TextFormField(
         decoration: const InputDecoration(
@@ -357,29 +351,26 @@ class _JobDialogState extends State<JobDialog> {
         controller: netController,
       );
 
-
   Widget buildStatut2() => TextFormField(
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        icon: Icon(Icons.work, color: Colors.white),
-        labelText: 'Statut',
-        suffixText: "",
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-        fillColor: Colors.white,
-        filled: true),
-    keyboardType: TextInputType.number,
-    validator: (amount) => amount != null && double.tryParse(amount) == null
-        ? 'Saisir un nombre valide'
-        : null,
-    onChanged: (text) {
-      onNetChange();
-    },
-    controller: netController,
-  );
-
-
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.work, color: Colors.white),
+            labelText: 'Statut',
+            suffixText: "",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) => amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onNetChange();
+        },
+        controller: netController,
+      );
 
   Widget buildAnnuelBrut() => TextFormField(
         decoration: const InputDecoration(
@@ -477,6 +468,3 @@ class _JobDialogState extends State<JobDialog> {
     );
   }
 }
-
-
-
