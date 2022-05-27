@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "37651403397",
+    "project_id": "brutnet-2d583",
+    "storage_bucket": "brutnet-2d583.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37651403397:android:30e00b0f6ab7bf5b204fec",
+        "android_client_info": {
+          "package_name": "com.framework.brutNet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37651403397-fii7o55efcr8b4asuii7gp9gogn5c2rg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC96gvcwHqDigBJLZxjs1_rwKH5-W797q8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37651403397-fii7o55efcr8b4asuii7gp9gogn5c2rg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
