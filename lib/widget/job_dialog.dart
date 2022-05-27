@@ -6,8 +6,8 @@ import 'package:animate_do/animate_do.dart';
 class JobDialog extends StatefulWidget {
   final Job? job;
   final Function(
-          String name, double brut, double net, String statut, String comment)
-      onClickedDone;
+      String name, double brut, double net, String statut, String comment)
+  onClickedDone;
 
   const JobDialog({
     Key? key,
@@ -120,7 +120,7 @@ class _JobDialogState extends State<JobDialog> {
   Widget build(BuildContext context) {
     final isEditing = widget.job != null;
     final title =
-        isEditing ? 'Editer une offre' : 'Calcul du salaire Brut en Net';
+    isEditing ? 'Editer une offre' : 'Calcul du salaire Brut en Net';
 
     return Scaffold(
       backgroundColor: Colors.red,
@@ -128,12 +128,12 @@ class _JobDialogState extends State<JobDialog> {
         title: Center(child: Text(title)),
       ),
       body: SingleChildScrollView(
-          //Animation de chutte
-          child: BounceInDown(
-        child:
-            Row(
-                children: [
-                  Container(
+        //Animation de chutte
+        child: BounceInDown(
+          child:
+          Row(
+            children: [
+            Container(
             height: 500,
             width: 500,
             //Maximum de l'espace disponible
@@ -152,34 +152,34 @@ class _JobDialogState extends State<JobDialog> {
                 SizedBox(height: 20),
 
                 Container(
-                    //Division des champs
+                  //Division des champs
 
                     child: Column(
-                  children: [
-                    Row(children:[
-                      Container(
-                          width: 230,
-                          child: Column(children: [
-                            buildBrut(),
-                            SizedBox(height: 20),
-                            buildNet(),
-                            SizedBox(height: 20),
-                            buildAnnuelBrut(),
-                          ])),
-                      Container(
-                          width: 230,
-                          child: Column(children: [
-                            buildBrut(),
-                            SizedBox(height: 20),
-                            buildNet(),
-                            SizedBox(height: 20),
-                            buildAnnuelBrut(),
-                          ])),
-                      ]
-                    )
+                      children: [
+                        Row(children: [
+                          Container(
+                              width: 230,
+                              child: Column(children: [
+                                buildBrut(),
+                                SizedBox(height: 20),
+                                buildNet(),
+                                SizedBox(height: 20),
+                                buildAnnuelBrut(),
+                              ])),
+                          Container(
+                              width: 230,
+                              child: Column(children: [
+                                buildBrut(),
+                                SizedBox(height: 20),
+                                buildNet(),
+                                SizedBox(height: 20),
+                                buildAnnuelBrut(),
+                              ])),
+                        ]
+                        )
 
-                  ],
-                )),
+                      ],
+                    )),
                 SizedBox(height: 20),
 
                 //Champ large
@@ -187,76 +187,126 @@ class _JobDialogState extends State<JobDialog> {
               ],
             ),
           ),
+          Container(
+              height: 500,
+              width: 500,
+              //Maximum de l'espace disponible
+              margin: EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                //Axe horizental
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Text(
+                "Indiquez votre salaire brut",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              Container(
+                  width: 500,
+                  child: buildTemps()
+              ),
+              SizedBox(height: 20),
+              Container(
+                  width: 500,
+                  child: buildPrime()
+              ),
+              SizedBox(height: 20),
+              Container(
+                  width: 500,
+                  child: buildPrelevement()
+              ),
+              SizedBox(height: 20),
+              Container(
+                  width: 500,
+                  child: Column(
+                      children: [
+                  Row(
+                  children:[
                   Container(
-                    height: 500,
-                    width: 500,
-                    //Maximum de l'espace disponible
+                      width: 230,
+                      child: Column(children: [
+                        buildMensuelImpot(),
+                      ])),
+                    SizedBox(height: 20),
+                  Container(
+                      width: 230,
+                      child: Column(
+                          children: [
+                            buildAnnuelImpot(),
+                          ])
+                  ),
+
+
+                  ]
+              )]
+
+          ),
+
+        ),
+                  Container(
                     margin: EdgeInsets.all(20),
                     padding: EdgeInsets.all(20),
-
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      //Axe horizental
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Indiquez votre salaire brut",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          width:500,
-                            child: buildTemps()
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                            width:500,
-                            child: buildPrime()
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                            width:500,
-                            child: buildPrelevement()
-                        ),
-                        SizedBox(height: 20),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
 
-                      ],
+                        children: [
+                          RaisedButton(
+                            onPressed:(){},
+                              child:Text("Effacer les champs"),
+                            color: Colors.white,
+                          ),]
+
                     ),
+
                   ),
-                ]),
-      )),
+
+
+        ],
+      ),
+    ),
+    ]),
+    )),
     );
     return AlertDialog(
-      title: Text(title),
-      content: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const SizedBox(height: 8),
-              buildName(),
-              const SizedBox(height: 8),
-              buildBrut(),
-              const SizedBox(height: 8),
-              buildNet(),
-              const SizedBox(height: 8),
-              buildStatut(),
-              const SizedBox(height: 8),
-              buildComment(),
-            ],
-          ),
-        ),
-      ),
-      actions: <Widget>[
-        buildCancelButton(context),
-        buildAddButton(context, isEditing: isEditing),
-      ],
+    title: Text(title),
+    content: Form(
+    key: formKey,
+    child: SingleChildScrollView(
+    child: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+    const SizedBox(height: 8),
+    buildName(),
+    const SizedBox(height: 8),
+    buildBrut(),
+    const SizedBox(height: 8),
+    buildNet(),
+    const SizedBox(height: 8),
+    buildStatut(),
+    const SizedBox(height: 8),
+    buildComment(),
+    ],
+    ),
+    ),
+    ),
+    actions: <Widget>[
+    buildCancelButton(context),
+    buildAddButton(context, isEditing:
+    isEditing
+    )
+    ,
+    ]
+    ,
     );
   }
 
-  Widget buildName() => TextFormField(
+  Widget buildName() =>
+      TextFormField(
         controller: nameController,
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -269,10 +319,11 @@ class _JobDialogState extends State<JobDialog> {
             filled: true),
         maxLines: 2,
         validator: (name) =>
-            name != null && name.isEmpty ? 'Saisir un nom' : null,
+        name != null && name.isEmpty ? 'Saisir un nom' : null,
       );
 
-  Widget buildBrut() => TextFormField(
+  Widget buildBrut() =>
+      TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.timer, color: Colors.white),
@@ -284,7 +335,8 @@ class _JobDialogState extends State<JobDialog> {
             fillColor: Colors.white,
             filled: true),
         keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
@@ -293,7 +345,52 @@ class _JobDialogState extends State<JobDialog> {
         controller: brutController,
       );
 
-  Widget buildTemps() => TextFormField(
+  Widget buildMensuelImpot() =>
+      TextFormField(
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.euro, color: Colors.white),
+            labelText: 'Mensuel net après impôts',
+            suffixText: "",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onBrutChange();
+        },
+        controller: brutController,
+      );
+  Widget buildAnnuelImpot() =>
+      TextFormField(
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.euro, color: Colors.white),
+            labelText: 'Annuel net après impôts',
+            suffixText: "€",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onBrutChange();
+        },
+        controller: brutController,
+      );
+  Widget buildTemps() =>
+      TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.timer, color: Colors.white),
@@ -305,7 +402,8 @@ class _JobDialogState extends State<JobDialog> {
             fillColor: Colors.white,
             filled: true),
         keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
@@ -314,29 +412,32 @@ class _JobDialogState extends State<JobDialog> {
         controller: brutController,
       );
 
-  Widget buildPrime()  => DropdownButtonFormField<String>(
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        icon: Icon(Icons.add, color: Colors.white),
-        labelText: 'Prime',
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-        fillColor: Colors.white,
-        filled: true),
-    value: dropdownPrimeValue,
-    items: itemsPrime.map(builMenuItem).toList(),
-    onChanged: (value) => setState(() {
-      if (value != null) {
-        dropdownPrimeValue = value;
-        dropdownPrimeIndex = itemsPrime.indexOf(value);
-      }
-      onBrutChange();
-    }),
-    validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
-  );
+  Widget buildPrime() =>
+      DropdownButtonFormField<String>(
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.add, color: Colors.white),
+            labelText: 'Prime',
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        value: dropdownPrimeValue,
+        items: itemsPrime.map(builMenuItem).toList(),
+        onChanged: (value) =>
+            setState(() {
+              if (value != null) {
+                dropdownPrimeValue = value;
+                dropdownPrimeIndex = itemsPrime.indexOf(value);
+              }
+              onBrutChange();
+            }),
+        validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
+      );
 
-  Widget buildPrelevement() => TextFormField(
+  Widget buildPrelevement() =>
+      TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.percent, color: Colors.white),
@@ -348,7 +449,8 @@ class _JobDialogState extends State<JobDialog> {
             fillColor: Colors.white,
             filled: true),
         keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
@@ -357,7 +459,8 @@ class _JobDialogState extends State<JobDialog> {
         controller: brutController,
       );
 
-  Widget buildNet() => TextFormField(
+  Widget buildNet() =>
+      TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.euro, color: Colors.white),
@@ -369,7 +472,8 @@ class _JobDialogState extends State<JobDialog> {
             fillColor: Colors.white,
             filled: true),
         keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
@@ -378,7 +482,8 @@ class _JobDialogState extends State<JobDialog> {
         controller: netController,
       );
 
-  Widget buildStatut2() => TextFormField(
+  Widget buildStatut2() =>
+      TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.work, color: Colors.white),
@@ -390,7 +495,8 @@ class _JobDialogState extends State<JobDialog> {
             fillColor: Colors.white,
             filled: true),
         keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
@@ -399,7 +505,8 @@ class _JobDialogState extends State<JobDialog> {
         controller: netController,
       );
 
-  Widget buildAnnuelBrut() => TextFormField(
+  Widget buildAnnuelBrut() =>
+      TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.euro, color: Colors.white),
@@ -411,7 +518,8 @@ class _JobDialogState extends State<JobDialog> {
             fillColor: Colors.white,
             filled: true),
         keyboardType: TextInputType.number,
-        validator: (amount) => amount != null && double.tryParse(amount) == null
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
@@ -420,14 +528,16 @@ class _JobDialogState extends State<JobDialog> {
         controller: netController,
       );
 
-  DropdownMenuItem<String> builMenuItem(String item) => DropdownMenuItem(
+  DropdownMenuItem<String> builMenuItem(String item) =>
+      DropdownMenuItem(
         value: item,
         child: Text(
           item,
         ),
       );
 
-  Widget buildStatut() => DropdownButtonFormField<String>(
+  Widget buildStatut() =>
+      DropdownButtonFormField<String>(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             icon: Icon(Icons.account_circle, color: Colors.white),
@@ -439,17 +549,19 @@ class _JobDialogState extends State<JobDialog> {
             filled: true),
         value: dropdownValue,
         items: items.map(builMenuItem).toList(),
-        onChanged: (value) => setState(() {
-          if (value != null) {
-            dropdownValue = value;
-            dropdownIndex = items.indexOf(value);
-          }
-          onBrutChange();
-        }),
+        onChanged: (value) =>
+            setState(() {
+              if (value != null) {
+                dropdownValue = value;
+                dropdownIndex = items.indexOf(value);
+              }
+              onBrutChange();
+            }),
         validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
       );
 
-  Widget buildComment() => TextFormField(
+  Widget buildComment() =>
+      TextFormField(
         controller: commentController,
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -463,10 +575,11 @@ class _JobDialogState extends State<JobDialog> {
         maxLines: 5,
         keyboardType: TextInputType.multiline,
         validator: (name) =>
-            name != null && name.isEmpty ? 'Saisir un commentaire' : null,
+        name != null && name.isEmpty ? 'Saisir un commentaire' : null,
       );
 
-  Widget buildCancelButton(BuildContext context) => TextButton(
+  Widget buildCancelButton(BuildContext context) =>
+      TextButton(
         child: Text('Annuler'),
         onPressed: () => Navigator.of(context).pop(),
       );
