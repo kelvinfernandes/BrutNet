@@ -21,10 +21,18 @@ class JobDialog extends StatefulWidget {
 
 class _JobDialogState extends State<JobDialog> {
   final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final brutController = TextEditingController();
-  final netController = TextEditingController();
-  final commentController = TextEditingController();
+  final horaireBrutController = TextEditingController();
+  final horaireNetController = TextEditingController();
+  final annuelBrutController = TextEditingController();
+  final annuelNetController = TextEditingController();
+  final mensuelBrutController = TextEditingController();
+  final mensuelNetController = TextEditingController();
+
+
+  final prelevementController = TextEditingController();
+  final annuelImpotController = TextEditingController();
+  final mensuelImpotController = TextEditingController();
+  final tempsController = TextEditingController();
 
   final items = [
     'Salarié non-cadre 22%',
@@ -49,6 +57,8 @@ class _JobDialogState extends State<JobDialog> {
   int dropdownPrimeIndex = 0;
   int dropdownIndex = 0;
 
+
+
   double roundDouble(double value, int places) {
     num mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
@@ -62,29 +72,38 @@ class _JobDialogState extends State<JobDialog> {
     return roundDouble(salaire * pourcentage, 2);
   }
 
-  onBrutChange() {
+  onInputChange() {
     setState(() {
-      double? brut = double.tryParse(brutController.text);
-      double net = 0;
-      if (brut != null) {
-        net = calculSalaire(brut, true, pourcentages[dropdownIndex]);
+      double? horairebrut = double.tryParse(horaireBrutController.text);
+      double horairenet = 0;
+      double? mensuelbrut = double.tryParse(mensuelBrutController.text);
+      double mensuelnet = 0;
+      double? annuelbrut = double.tryParse(annuelBrutController.text);
+      double annuelnet = 0;
+      if (horairebrut != null) {
+        horairenet = calculSalaire(horairebrut/1.0001, true, pourcentages[dropdownIndex]);
       }
 
-      if (net >= 0) {
-        netController.text = net.toString();
+      if (horairenet >= 0) {
+        horaireNetController.text = horairenet.toString();
+        horaireBrutController.text = horairebrut.toString();
+        mensuelNetController.text = mensuelnet.toString();
+        mensuelBrutController.text = mensuelbrut.toString();
+        annuelNetController.text = annuelnet.toString();
+        annuelBrutController.text = annuelbrut.toString();
       }
     });
   }
 
   onNetChange() {
     setState(() {
-      double? net = double.tryParse(netController.text);
-      double brut = 0;
-      if (net != null) {
-        brut = calculSalaire(net, false, pourcentages[dropdownIndex]);
+      double? horairenet = double.tryParse(horaireNetController.text);
+      double horairebrut = 0;
+      if (horairenet != null) {
+        horairebrut = calculSalaire(horairenet, false, pourcentages[dropdownIndex]);
       }
-      if (brut >= 0) {
-        brutController.text = brut.toString();
+      if (horairebrut >= 0) {
+        horaireBrutController.text = horairebrut.toString();
       }
     });
   }
@@ -96,10 +115,8 @@ class _JobDialogState extends State<JobDialog> {
     if (widget.job != null) {
       final job = widget.job!;
 
-      nameController.text = job.name;
-      brutController.text = job.brut.toString();
-      netController.text = job.net.toString();
-      commentController.text = job.comment;
+
+      annuelBrutController.text = job.comment;
 
       dropdownValue = job.statut;
       dropdownIndex = items.indexOf(dropdownValue!);
@@ -108,10 +125,13 @@ class _JobDialogState extends State<JobDialog> {
 
   @override
   void dispose() {
-    nameController.dispose();
-    brutController.dispose();
-    netController.dispose();
-    commentController.dispose();
+    horaireBrutController.dispose();
+    horaireNetController.dispose();
+    mensuelBrutController.dispose();
+    mensuelNetController.dispose();
+    annuelBrutController.dispose();
+    annuelNetController.dispose();
+
 
     super.dispose();
   }
@@ -145,22 +165,37 @@ class _JobDialogState extends State<JobDialog> {
               //Axe horizental
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Indiquez votre salaire brut",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                Row(children:[
+                  SizedBox(width: 40),
+                  Text(
+                  "INDIQUEZ VOTRE SALAIRE BRUT",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
+                  SizedBox(width: 55),
+                  Text(
+                    "RESULTAT DE VOTRE SALAIRE NET",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+
+
+
+                ],
+                ),
+
                 SizedBox(height: 20),
 
                 Container(
                   //Division des champs
 
                     child: Column(
+
                       children: [
+
                         Row(children: [
                           Container(
                               width: 230,
                               child: Column(children: [
-                                buildBrut(),
+                                buildHoraireBrut(),
                                 SizedBox(height: 20),
                                 buildNet(),
                                 SizedBox(height: 20),
@@ -169,11 +204,11 @@ class _JobDialogState extends State<JobDialog> {
                           Container(
                               width: 230,
                               child: Column(children: [
-                                buildBrut(),
+                                buildHoraireNet(),
                                 SizedBox(height: 20),
-                                buildNet(),
+                                buildMensuelNet(),
                                 SizedBox(height: 20),
-                                buildAnnuelBrut(),
+                                buildAnnuelNet(),
                               ])),
                         ]
                         )
@@ -199,10 +234,15 @@ class _JobDialogState extends State<JobDialog> {
                 //Axe horizental
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Text(
-                "Indiquez votre salaire brut",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
+                  Row(children:[
+                    SizedBox(width: 40),
+                    Text(
+                      "INDIQUEZ VOTRE TEMPS DE TRAVAIL",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ]),
+
+
               SizedBox(height: 20),
               Container(
                   width: 500,
@@ -255,11 +295,19 @@ class _JobDialogState extends State<JobDialog> {
 
 
                         children: [
-                          RaisedButton(
-                            onPressed:(){},
-                              child:Text("Effacer les champs"),
-                            color: Colors.white,
-                          ),]
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child:Text("Effacer les champs", style: TextStyle(fontSize: 20)),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              onPrimary: Colors.black,
+
+                            ),
+                          ),
+
+
+
+                        ]
 
                     ),
 
@@ -272,57 +320,31 @@ class _JobDialogState extends State<JobDialog> {
     ]),
     )),
     );
-    return AlertDialog(
-    title: Text(title),
-    content: Form(
-    key: formKey,
-    child: SingleChildScrollView(
-    child: Column(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-    const SizedBox(height: 8),
-    buildName(),
-    const SizedBox(height: 8),
-    buildBrut(),
-    const SizedBox(height: 8),
-    buildNet(),
-    const SizedBox(height: 8),
-    buildStatut(),
-    const SizedBox(height: 8),
-    buildComment(),
-    ],
-    ),
-    ),
-    ),
-    actions: <Widget>[
-    buildCancelButton(context),
-    buildAddButton(context, isEditing:
-    isEditing
-    )
-    ,
-    ]
-    ,
-    );
   }
 
-  Widget buildName() =>
+  Widget buildHoraireNet() =>
       TextFormField(
-        controller: nameController,
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            icon: Icon(Icons.business, color: Colors.white),
-            labelText: 'Nom de l\'entreprise',
+            icon: Icon(Icons.timer, color: Colors.white),
+            labelText: 'Horaire Net',
+            suffixText: "",
             labelStyle: TextStyle(
               color: Colors.black,
             ),
             fillColor: Colors.white,
             filled: true),
-        maxLines: 2,
-        validator: (name) =>
-        name != null && name.isEmpty ? 'Saisir un nom' : null,
+        keyboardType: TextInputType.number,
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onInputChange();
+        },
+        controller: horaireNetController,
       );
-
-  Widget buildBrut() =>
+  Widget buildHoraireBrut() =>
       TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -340,9 +362,9 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onBrutChange();
+          onInputChange();
         },
-        controller: brutController,
+        controller: horaireBrutController,
       );
 
   Widget buildMensuelImpot() =>
@@ -363,9 +385,9 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onBrutChange();
+          onInputChange();
         },
-        controller: brutController,
+        controller: mensuelImpotController,
       );
   Widget buildAnnuelImpot() =>
       TextFormField(
@@ -385,9 +407,9 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onBrutChange();
+          onInputChange();
         },
-        controller: brutController,
+        controller: annuelImpotController,
       );
   Widget buildTemps() =>
       TextFormField(
@@ -407,9 +429,9 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onBrutChange();
+          onInputChange();
         },
-        controller: brutController,
+        controller: tempsController,
       );
 
   Widget buildPrime() =>
@@ -431,7 +453,7 @@ class _JobDialogState extends State<JobDialog> {
                 dropdownPrimeValue = value;
                 dropdownPrimeIndex = itemsPrime.indexOf(value);
               }
-              onBrutChange();
+              onInputChange();
             }),
         validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
       );
@@ -454,11 +476,33 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onBrutChange();
+          onInputChange();
         },
-        controller: brutController,
+        controller: prelevementController,
       );
 
+  Widget buildMensuelNet() =>
+      TextFormField(
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.euro, color: Colors.white),
+            labelText: 'Mensuel Net',
+            suffixText: "€",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onInputChange();
+        },
+        controller: mensuelNetController,
+      );
   Widget buildNet() =>
       TextFormField(
         decoration: const InputDecoration(
@@ -477,35 +521,14 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onNetChange();
+          onInputChange();
         },
-        controller: netController,
+        controller: mensuelBrutController,
       );
 
-  Widget buildStatut2() =>
-      TextFormField(
-        decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            icon: Icon(Icons.work, color: Colors.white),
-            labelText: 'Statut',
-            suffixText: "",
-            labelStyle: TextStyle(
-              color: Colors.black,
-            ),
-            fillColor: Colors.white,
-            filled: true),
-        keyboardType: TextInputType.number,
-        validator: (amount) =>
-        amount != null && double.tryParse(amount) == null
-            ? 'Saisir un nombre valide'
-            : null,
-        onChanged: (text) {
-          onNetChange();
-        },
-        controller: netController,
-      );
 
-  Widget buildAnnuelBrut() =>
+
+  Widget buildAnnuelNet() =>
       TextFormField(
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -523,9 +546,31 @@ class _JobDialogState extends State<JobDialog> {
             ? 'Saisir un nombre valide'
             : null,
         onChanged: (text) {
-          onNetChange();
+          onInputChange();
         },
-        controller: netController,
+        controller: annuelNetController,
+      );
+  Widget buildAnnuelBrut() =>
+      TextFormField(
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            icon: Icon(Icons.euro, color: Colors.white),
+            labelText: 'Annuel Brut',
+            suffixText: "€",
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: Colors.white,
+            filled: true),
+        keyboardType: TextInputType.number,
+        validator: (amount) =>
+        amount != null && double.tryParse(amount) == null
+            ? 'Saisir un nombre valide'
+            : null,
+        onChanged: (text) {
+          onInputChange();
+        },
+        controller: annuelBrutController,
       );
 
   DropdownMenuItem<String> builMenuItem(String item) =>
@@ -555,56 +600,8 @@ class _JobDialogState extends State<JobDialog> {
                 dropdownValue = value;
                 dropdownIndex = items.indexOf(value);
               }
-              onBrutChange();
+              onInputChange();
             }),
         validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
       );
-
-  Widget buildComment() =>
-      TextFormField(
-        controller: commentController,
-        decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            icon: Icon(Icons.rate_review, color: Colors.white),
-            labelText: 'Commentaire',
-            labelStyle: TextStyle(
-              color: Colors.black,
-            ),
-            fillColor: Colors.white,
-            filled: true),
-        maxLines: 5,
-        keyboardType: TextInputType.multiline,
-        validator: (name) =>
-        name != null && name.isEmpty ? 'Saisir un commentaire' : null,
-      );
-
-  Widget buildCancelButton(BuildContext context) =>
-      TextButton(
-        child: Text('Annuler'),
-        onPressed: () => Navigator.of(context).pop(),
-      );
-
-  Widget buildAddButton(BuildContext context, {required bool isEditing}) {
-    final text = isEditing ? 'Enregistrer' : 'Ajouter';
-
-    return TextButton(
-      child: Text(text),
-      onPressed: () async {
-        final isValid = formKey.currentState!.validate();
-
-        if (isValid) {
-          final name = nameController.text.substring(0, 1).toUpperCase() +
-              nameController.text.substring(1, nameController.text.length);
-          final brut = double.tryParse(brutController.text) ?? 0;
-          final net = double.tryParse(netController.text) ?? 0;
-          final statut = dropdownValue!;
-          final comment = commentController.text;
-
-          widget.onClickedDone(name, brut, net, statut, comment);
-
-          Navigator.of(context).pop();
-        }
-      },
-    );
-  }
 }
